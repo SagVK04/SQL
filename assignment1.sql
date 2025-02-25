@@ -45,8 +45,7 @@ CREATE TABLE EMP(
 	com number(8),
 	deptno number(2), 
 );
-ALTER TABLE EMP
-ADD CONSTRAINT FK Foreign Key(deptno) references DEPT(deptno) ON DELETE CASCADE
+ALTER TABLE EMP ADD CONSTRAINT FK Foreign Key(deptno) references DEPT(deptno) ON DELETE CASCADE;
 DESC EMP;
 INSERT INTO EMP VALUES(7369,'Smith','Clerk',7902,DATE '2016-12-17',8000,null,20); /*Date Operator*/
 INSERT INTO EMP VALUES(7499,'Allen','Salesman',7698,TO_DATE ('20 Feb 2014','DD-MON-YYYY'),16000,300,30);
