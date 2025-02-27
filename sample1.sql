@@ -82,3 +82,19 @@ select MAX(SAL) as "Maximum salary" from EMP;
 select MIN(SAL) as "Minimum salary" from EMP;
 select AVG(SAL) as "Average salary" from EMP;
 select MAX(SAL) as "Maximum salary of salesman" from EMP where JOB='Salesman';
+select COUNT(*) as "No of Employees", AVG(sal) as "Average salary of employees in dept 20" from EMP where deptno='20'; 
+select ename,sal,sal*0.1 as "PF" from EMP;
+select ename,hiredate from EMP where TO_DATE('25-02-2025','DD-MM-YYYY')-hiredate>5;
+/* OR */
+select CURDATE();
+select ename,hiredate from EMP where hiredate<DATE_ADD(CURDATE(),interval -60 month);
+select empno,ename,sal from EMP order by sal,ename asc; /*By default it will be arranged in ascending order*/
+select ename,hiredate from EMP order by hiredate desc;
+select ename,sal,sal*0.1 as"PF",sal*0.2 as"HRA",sal*0.3 as"DA",(sal+sal*0.2+sal*0.3-sal*0.1) as "Gross Salary" from EMP order by sal+sal*0.2+sal*0.3-sal*0.1 asc;
+select deptno,COUNT(empno) as "Number of employees" from emp group by deptno;/*non-group and aggregate functions->group by*/
+select deptno,COUNT(*) as "Number of employees" from emp group by deptno;
+select deptno,SUM(sal) as "Total payable salary" from emp group by deptno;
+select job,COUNT(*) as"Number of emplyoees" from emp group by job;
+select job,SUM(sal) as"Total Salary",MAX(sal) as"Maximum Salary",MIN(sal) as"Mnimum Salary",AVG(sal) as"Average Salary" from emp group by job;
+select job,SUM(sal) as"Total Salary",MAX(sal) as"Maximum Salary",MIN(sal) as"Mnimum Salary",AVG(sal) as"Average Salary" from emp where deptno='20'group by job;
+select job,SUM(sal) as"Total Salary",MAX(sal) as"Maximum Salary",MIN(sal) as"Mnimum Salary",AVG(sal) as"Average Salary" from emp where deptno='30' group by job having AVG(sal)>10000;
