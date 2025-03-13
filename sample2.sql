@@ -15,7 +15,7 @@ create table item(
 	itemtype char(5),
 	itemname varchar(50) unique,
 	unitprice decimal(6,2) not null,
-	foreign key(itemtype) references itemcategory(catid)
+	foreign key(itemtype) references itemcategory(catid) on delete cascade
 );
 create table orderlist(
 	orderid int not null auto_increment primary key,
@@ -42,3 +42,56 @@ alter table orderlist add constraint fk2 foreign key(itemid) references item(ite
 alter table alluser drop gender;
 alter table alluser add phone char(10) unique;
 
+/*3a*/
+insert into itemcategory values('DRT','Desert', 'Usually taken after main course.');
+insert into itemcategory values('MNC', 'Main Course', 'Can be taken as lunch or dinner.');
+insert into itemcategory values('BVG','Beverages', 'Can be taken at any time.');
+insert into itemcategory values('FTF', 'Fast Food', 'Can be taken as breakfast or tiffin.');
+
+/*3B*/ 
+alter table item modify itemtype char(3);
+insert into item values('F01', 'FTF', 'Paneer Tikka Wrap Combo', 130.75);
+insert into item values('M01', 'MNC', 'Rajma Chawal Bowl', 189.25);
+insert into item values('M02','MNC', 'Hyderabadi Chicken Biryani', 220.50);
+insert into item values('B01', 'BVG', 'Mint Chaas', 89.00);
+insert into item values('M03', 'MNC', 'Kadai Paneer-Thali',209.75);
+insert into item values('F02', 'FTF', 'Chicken Tikka Sandwich', 139.25);
+insert into item values('M04','MNC','Chana Masala Pulao', 179.25);
+insert into item values('F03','FTF','Chilli Corn 65', 179.25);
+insert into item values('B02','BVG', 'Masala Lemonade', 89.00);
+	
+/*4*/
+insert into alluser values('doro77','dorothy77@gmail.com','Dorothy Jones', '4D/1, Fern Road, Kolkata','4578895623');	
+insert into alluser values('eve80','evelyn@gmail.com','Evelyn Simon', NULL, '7788778877');
+insert into alluser values('harry','harry_t@yahoo.com','Harry Thompson', '14, BB Ganguly St., Kolkata', NULL);	
+insert into alluser values('raja.h','rhasan@hotmail.com', 'Hasan Raja ',' AE34, Laketown, Kolkata',NULL);	
+insert into alluser values('james5', 'james5@rediff.com','James Andy',NULL, NULL);
+/*4f*/	
+update alluser set address='Flat 207, Block K,New Town' WHERE fullname='Evelyn Simon';
+SELECT * FROM alluser;
+/*4g*/
+update alluser set address='255, Jessore Road,Barasat', phone='2200560087' where fullname='James Andy';
+select * from alluser;
+
+/*5a*/
+alter table orderlist drop column amount; 
+insert into orderlist values (DEFAULT,'doro77','F02', 3, TO_DATE('2022-Jan-02','YYYY-MON-DD'),'UPI');
+insert into orderlist values (DEFAULT,'harry', 'M01', 1, TO_DATE('2022-Jan-04','YYYY-MON-DD'),'NETB');
+insert into orderlist values (DEFAULT,'harry','B02',1,TO_DATE('2022-Jan-04','YYYY-MON-DD'),'NETB');
+insert into orderlist values (DEFAULT,'doro77','F02',3,TO_DATE('2022-Jan-08','YYYY-MON-DD'),'UPI');
+insert into orderlist values (DEFAULT,'doro77','B02',2,TO_DATE('2022-Jan-08','YYYY-MON-DD'),'UPI');
+insert into orderlist values (DEFAULT,'raja.h','M02',3,TO_DATE('2022-Jan-18','YYYY-MON-DD'),'UPI');
+insert into orderlist values (DEFAULT,'eve80','M01',1,TO_DATE('2022-Jan-21','YYYY-MON-DD'),'NETB');
+insert into orderlist values (DEFAULT,'eve80','B02',1,TO_DATE('2022-Jan-21','YYYY-MON-DD'),'NETB');
+insert into orderlist values (DEFAULT,'doro77','M04',2,TO_DATE('2022-Feb-03','YYYY-MON-DD'),'CRDC');
+insert into orderlist values (DEFAULT,'james5','M03',1,TO_DATE('2022-Feb-03','YYYY-MON-DD'),'NETB');
+insert into orderlist values (DEFAULT,'james5','B02',2,TO_DATE('2022-Feb-03','YYYY-MON-DD'),'NETB');
+insert into orderlist values (DEFAULT,'doro77','M02',2,TO_DATE('2022-Feb-07','YYYY-MON-DD'),'UPI');
+insert into orderlist values (DEFAULT,'doro77','B01',4,TO_DATE('2022-Feb-09','YYYY-MON-DD'),'UPI');
+insert into orderlist values (DEFAULT,'james5','F02',2,TO_DATE('2022-Feb-12','YYYY-MON-DD'),'DEBT');
+insert into orderlist values (DEFAULT,'eve80','M04',10,TO_DATE('2022-Feb-20','YYYY-MON-DD'),'CRDC');
+insert into orderlist values (DEFAULT,'eve80','B01',6,TO_DATE('2022-Feb-20','YYYY-MON-DD'),'CRDC');
+insert into orderlist values (DEFAULT,'eve80','F02',2,TO_DATE('2022-Feb-20','YYYY-MON-DD'),'CRDC');
+insert into orderlist values (DEFAULT,'harry','M03',3,TO_DATE('2022-Feb-23','YYYY-MON-DD'),'NETB');
+insert into orderlist values (DEFAULT,'raja.h','F02',4,TO_DATE('2022-Feb-26','YYYY-MON-DD'),'DEBT');
+insert into orderlist values (DEFAULT,'harry','B02',2,TO_DATE('2022-Feb-28','YYYY-MON-DD'),'NETB');
