@@ -26,64 +26,28 @@ CREATE TABLE ORDERLIST(
 	orderdate date,
 	paymode char(4)
 );
+
+/*2*/
 /*2A*/
 ALTER TABLE USERDATA RENAME TO ALLUSER;
-RENAME USERDATA TO ALLUSER;
-DESC USERDATA;
-ERROR:
-ORA-04043: object USERDATA does not exist
-DESC ALLUSER;
- Name					   Null?    Type
- ----------------------------------------- -------- ----------------------------
- USERID 				   NOT NULL VARCHAR2(6)
- EMAIL						    VARCHAR2(20)
- FULLNAME				   NOT NULL VARCHAR2(18)
- GENDER 					    CHAR(1)
- ADDRESS					    VARCHAR2(35)
-
 /*2B*/
 ALTER TABLE ITEMCATEGORY RENAME COLUMN description TO descr;
 ALTER TABLE ITEMCATEGORY MODIFY DESCR VARCHAR2(50);
 ALTER TABLE ITEMCATEGORY MODIFY CATNAME NOT NULL;
-DESC ITEMCATEGORY;
- Name					   Null?    Type
- ----------------------------------------- -------- ----------------------------
- CATID					   NOT NULL CHAR(3)
- CATNAME				   NOT NULL VARCHAR2(15)
- DESCR						    VARCHAR2(50)
 /*2C*/
 ALTER TABLE ORDERLIST MODIFY FOREIGN KEY(userid) references ALLUSER(userid);
 ALTER TABLE ORDERLIST MODIFY FOREIGN KEY(itemid) references ITEM(itemid);
-
 /*2D*/
-
 ALTER TABLE ALLUSER DROP COLUMN GENDER;
-DESC ALLUSER;
- Name					   Null?    Type
- ----------------------------------------- -------- ----------------------------
- USERID 				   NOT NULL VARCHAR2(6)
- EMAIL						    VARCHAR2(20)
- FULLNAME				   NOT NULL VARCHAR2(18)
- ADDRESS					    VARCHAR2(35)
-
-
 ALTER TABLE ALLUSER ADD phone char(10) unique;
 
-
- Name					   Null?    Type
- ----------------------------------------- -------- ----------------------------
- USERID 				   NOT NULL VARCHAR2(6)
- EMAIL						    VARCHAR2(20)
- FULLNAME				   NOT NULL VARCHAR2(18)
- ADDRESS					    VARCHAR2(35)
- PHONE						    CHAR(10)
+/*3*/
 /*3a*/
 INSERT INTO ITEMCATEGORY values('DRT','Desert', 'Usually taken after main course.');
 INSERT INTO ITEMCATEGORY values('MNC', 'Main Course', 'Can be taken as lunch or dinner.');
 INSERT INTO ITEMCATEGORY values('DRT','Desert', 'Usually taken after main course.');
 INSERT INTO ITEMCATEGORY values('BVG','Beverages', 'Can be taken at any time.');
 INSERT INTO ITEMCATEGORY values('FTF', 'Fast Food', 'Can be taken as breakfast or tiffin.');
-
 /*3B*/ 
 ALTER TABLE ITEM MODIFY itemtype char(3);
 INSERT INTO ITEM VALUES('F01', 'FTF', 'Paneer Tikka Wrap Combo', 130.75);
@@ -104,30 +68,10 @@ INSERT INTO ALLUSER VALUES('raja.h','rhasan@hotmail.com', 'Hasan Raja ',' AE34, 
 INSERT INTO ALLUSER VALUES('james5', 'james5@rediff.com','James Andy',NULL, NULL);
 /*4f*/	
 UPDATE ALLUSER SET address='Flat 207, Block K,New Town' WHERE fullname='Evelyn Simon';
-SELECT * FROM ALLUSER;
-USERID EMAIL		    FULLNAME	       ADDRESS				   PHONE
------- -------------------- ------------------ ----------------------------------- ----------
-doro77 dorothy77@gmail.com  Dorothy Jones      4D/1, Fern Road, Kolkata 	   4578895623
-eve80  evelyn@gmail.com     Evelyn Simon       Flat 207, Block K,		   7788778877
-					       New Town
-
-harry  harry_t@yahoo.com    Harry Thompson     14, BB Ganguly St., Kolkata
-raja.h rhasan@hotmail.com   Hasan Raja		AE34, Laketown, Kolkata		   3222548522
-james5 james5@rediff.com    James Andy
 /*4g*/
 UPDATE ALLUSER SET address='255, Jessore Road,Barasat', phone='2200560087' WHERE fullname='James Andy';
-SELECT * FROM ALLUSER;
-USERID EMAIL		    FULLNAME	       ADDRESS				   PHONE
------- -------------------- ------------------ ----------------------------------- ----------
-doro77 dorothy77@gmail.com  Dorothy Jones      4D/1, Fern Road, Kolkata 	   4578895623
-eve80  evelyn@gmail.com     Evelyn Simon       Flat 207, Block K,		   7788778877
-					       New Town
 
-harry  harry_t@yahoo.com    Harry Thompson     14, BB Ganguly St., Kolkata
-raja.h rhasan@hotmail.com   Hasan Raja		AE34, Laketown, Kolkata 	   3222548522
-james5 james5@rediff.com    James Andy	       255, Jessore Road,		   2200560087
-					       Barasat
-
+/*5*/
 /*5a*/
 ALTER TABLE ORDERLIST DROP COLUMN amount; 
 INSERT INTO ORDERLIST VALUES (DEFAULT,'doro77','F02', 3, TO_DATE('2022-Jan-02','YYYY-MON-DD'),'UPI');
