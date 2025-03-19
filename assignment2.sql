@@ -95,10 +95,37 @@ INSERT INTO ORDERLIST VALUES (DEFAULT,'harry','M03',3,TO_DATE('2022-Feb-23','YYY
 INSERT INTO ORDERLIST VALUES (DEFAULT,'raja.h','F02',4,TO_DATE('2022-Feb-26','YYYY-MON-DD'),'DEBT');
 INSERT INTO ORDERLIST VALUES (DEFAULT,'harry','B02',2,TO_DATE('2022-Feb-28','YYYY-MON-DD'),'NETB');
 
-	
-	
-	
-	
-	
-	
-	
+/*6*/
+/*6a*/
+select itemname,unitprice as "Price" from item order by unitprice desc;
+/*6b*/
+select itemtype,MAX(unitprice) as "Maximum Price",MIN(unitprice) as "Minimum Price",AVG(unitprice) as "Average Price" from item group by itemtype;
+/*6c*/
+select itemname from item where itemname like 'C%';
+/*6d*/
+select itemcategory.catid,itemcategory.catname,item.itemname from item inner join itemcategory on item.itemtype=itemcategory.catid;
+/*6e*/
+select B.catname,B.itemname,A.unitprice from item A inner join itemcategory B on A.itemtype=B.catid order by A.unitprice asc;
+/*6f*/
+select * from item i1 where 2-1=(select count(distinct unitprice) from item i2 where i2.unitprice>i1.unitprice);
+/*or*/
+select * from item where unitprice in (select max(unitprice) from item where unitprice in (select unitprice from item minus (select MAX(unitprice) from item)))
+/*6g*/
+select itemname,descr from item,itemcategory where item.itemtype=itemcategory.catid;
+/*6h*/
+select catid,itemname,unitprice from item,itemcategory where item.itemtype=itemcategory.catid;
+/*6i*/
+select * from itemcategory where not exists(select itemtype from item where item.itemtype=itemcategory.catid);
+/*or*/
+select * from itemcategory where catid not in (select itemtype from item);
+/*6j*/
+select B.catname,A.itemname,A.unitprice from item A inner join itemcategory B on A.itemtype=B.catid where B.catname='Beverages';
+/*6k*/
+select B.catname,A.itemname,A.unitprice from item A inner join itemcategory B on A.itemtype=B.catid where B.catname='Main Course' order by A.unitprice desc;
+/*6l*/
+select item.itemname,alluser.fullname,orderlist.orderdate 
+from orderlist 
+inner join alluser on orderlist.userid=alluser.userid 
+inner join item on orderlist.itemid=item.itemid
+where item.itemtype='MNC' 
+order by item.itemname;
