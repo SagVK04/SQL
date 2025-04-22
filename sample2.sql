@@ -129,3 +129,40 @@ inner join alluser on orderlist.userid=alluser.userid
 inner join item on orderlist.itemid=item.itemid
 where item.itemtype='MNC' 
 order by item.itemname;
+
+/*7*/
+/*7a*/
+select fullname,address from alluser where address like '%Kolkata';
+/*7b*/
+select email,fullname from alluser where email like '%@gmail.com';
+/*7c*/
+select * from orderlist A inner join alluser B on A.userid = B.userid where B.fullname='Evelyn Simon';
+/*or*/
+select * from orderlist where userid = (select userid from alluser where fullname='Evelyn Simon');
+/*7d*/
+select A.itemname as "Unsold Items",B.catname from item A inner join itemcategory B on A.itemtype = B.catid where A.itemid in (select itemid from item where itemid not in (select itemid from orderlist));
+/*7e*/
+select A.itemid,B.itemname,SUM(A.qty) from orderlist A inner join item B on A.itemid = B.itemid group by A.itemid,B.itemname order by SUM(A.qty) desc;
+/*7f*/
+select A.itemid,B.itemname,SUM(B.unitprice*A.qty) as "Total cost" from orderlist A inner join item B on A.itemid = B.itemid group by A.itemid,B.itemname order by SUM(B.unitprice*A.qty) desc;
+/*7g*/
+select paymode,SUM(qty) from orderlist group by paymode order by SUM(qty) desc;
+/*7h*/
+select A.itemid,B.itemname,SUM(B.unitprice*A.qty) as "Total amount spent" from orderlist A inner join item B on A.itemid=B.itemid where userid = (select userid from alluser where fullname='Dorothy Jones') group by itemid,itemname;
+/*7i*/
+select C.fullname,A.userid,C.email from orderlist A 
+inner join item B on A.itemid=B.itemid
+inner join alluser C on A.userid=C.userid where B.itemtype = (select catid from itemcategory where catname='Main Course') and A.orderdate like '2022-01%';
+/*7j*/
+select C.fullname,A.userid,C.email from orderlist A 
+inner join item B on A.itemid=B.itemid
+inner join alluser C on A.userid=C.userid where A.paymode='NETB';
+/*7k*/
+/*a*/
+select C.fullname,A.userid,B.itemname,A.qty from orderlist A 
+inner join item B on A.itemid=B.itemid
+inner join alluser C on A.userid=C.userid where A.qty>=3 group by C.fullname,A.userid,B.itemname,A.qty order by A.userid;
+/*b*/
+select C.fullname,A.userid,B.itemname,A.qty from orderlist A 
+inner join item B on A.itemid=B.itemid
+inner join alluser C on A.userid=C.userid where A.qty>=3 group by C.fullname,A.userid,B.itemname,A.qty order by A.qty desc;
