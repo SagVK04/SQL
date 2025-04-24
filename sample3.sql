@@ -68,11 +68,8 @@ insert into transaction values('T0011','A0011','D',STR_TO_DATE('2022-02-12','%Y-
 
 /*3*/
 select * from account A inner join customer B on A.cid=B.cid where A.cid in(select cid from account where atype='S') and A.cid in(select cid from account where atype='S');
-
-
-
-
-
-
-
-
+/*4*/
+select B.bname,B.bcode,count(A.ano) from account A inner join branch B on A.bcode=B.bcode group by B.bcode,B.bname;
+select B_code,count(ano) from account group by bcode;
+/*5*/
+select B.bname,B.bcode,count(A.ano) as "Total branches" from account A inner join branch B on A.bcode=B.bcode group by B.bcode,B.bname having count(A.ano) < (select avg(l2) from ( select count(*) as l2 from account group by B.bcode) as branchavg);
