@@ -73,3 +73,19 @@ select B.bname,B.bcode,count(A.ano) from account A inner join branch B on A.bcod
 select B_code,count(ano) from account group by bcode;
 /*5*/
 select B.bname,B.bcode,count(A.ano) as "Total branches" from account A inner join branch B on A.bcode=B.bcode group by B.bcode,B.bname having count(A.ano) < (select avg(l2) from ( select count(*) as l2 from account group by B.bcode) as branchavg);
+
+/*6*/
+create view BRANCH_DATA as
+	select B.bname,B.bcode,count(A.ano) as "Total no. of A/c(s)" from account A inner join branch B on A.bcode=B.bcode group by B.bcode,B.bname;
+select * from BRANCH_DATA;
+
+/*7*/
+select A.cname,sum(B.balance) as "Total worth" from customer A inner join account B on A.cid = B.cid group by B.cid,A.cname order by sum(B.balance) desc; 
+
+/*8*/
+create view NET_WORTH as 
+	select A.cname,sum(B.balance) as "Total worth" from customer A inner join account B on A.cid = B.cid group by B.cid,A.cname order by sum(B.balance) desc;
+
+/*9*/
+delete from NET_WORTH where cname='Ramesh';
+/*ERROR 1288 (HY000): The target table NET_WORTH of the DELETE is not updatable*/
