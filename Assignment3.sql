@@ -71,14 +71,30 @@ insert into transaction values('T0009','A0005','D',TO_DATE('2022-Feb-02','YYYY-M
 insert into transaction values('T0010','A0008','W',TO_DATE('2022-Feb-05','YYYY-Mon-DD'),4000.00);
 insert into transaction values('T0011','A0011','D',TO_DATE('2022-Feb-12','YYYY-Mon-DD'),500.00);
 
+/*3*/
+select * from account A inner join customer B on A.cid = B.cid where A.cid in (select distinct cid from account where atype='S') and A.cid in (select distinct cid from account where atype='C');
+/*or*/
+select * from customer where cid in (select distinct(A1.cid) from account A1 join account A2 on A1.cid = A2.cid where A1.atype = 'S' and A2.atype = 'C');
 
+/*4*/
+select A.bcode,B.bname,count(A.ano) as "No of Accounts" from account A inner join branch B on A.bcode = B.bcode group by A.bcode,B.bname order by count(A.ano) desc;
 
+/*5*/
+select B.bname,A.bcode,count(A.ano) as a from account A inner join branch B on A.bcode=B.bcode group by A.bcode,B.bname having count(A.ano) < (select Avg(b) from (select count(A.ano) as b from account A inner join branch B on A.bcode=B.bcode group by A.bcode,B.bname) );
 
+/*6*/
+create view BRANCH_DATA as
+	select A.bcode,B.bname,count(A.ano) as "No of Accounts" from account A inner join branch B on A.bcode = B.bcode group by A.bcode,B.bname;
+select * from BRANCH_DATA;
 
+/*7*/
+select A.cname,sum(B.balance) as "Total worth" from customer A inner join account B on A.cid = B.cid group by B.cid,A.cname order by sum(B.balance) desc; 
 
+/*8*/
+create view NET_WORTH as 
+	select A.cname,sum(B.balance) as "Total worth" from customer A inner join account B on A.cid = B.cid group by B.cid,A.cname order by sum(B.balance) desc;
 
-
-
-
+/*9*/
+delete from NET_WORTH where cname='Ramesh';
 
 
