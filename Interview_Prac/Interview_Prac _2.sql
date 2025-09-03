@@ -3,7 +3,7 @@
 create table emp2(
 	id varchar(5) primary key,
 	name varchar(10),
-	salary int
+	salary int,
 	manager_id varchar(5)
 );
 
@@ -13,4 +13,6 @@ insert into emp2 values ('3','C',30000,'2');
 
 select * from emp2;
 
-select * from emp2 a inner join emp2 b on a.manager_id = b.manaer_id where a.salary>b.salary;
+select a.* from emp2 a inner join emp2 b on a.manager_id = b.id;
+
+select * from emp2 a inner join emp2 b on a.manager_id = b.id where a.salary>b.salary;
