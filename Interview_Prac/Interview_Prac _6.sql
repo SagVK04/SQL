@@ -1,5 +1,5 @@
 create table emp(
-	eid varchar(5) primary key,
+	eid int primary key,
 	ename varchar(10) not null,
 	address varchar(20)
 );
@@ -28,3 +28,14 @@ insert into project values('P1','IOT','Bangalore',1);
 insert into project values('P2','Big Data','Delhi',5);
 insert into project values('P3','Retail','Mumbai',3);
 insert into project values('P4','Android','Hyderabad',4);
+
+/*Find emplyoee names who are working on a project*/
+select ename from emp where eid in(
+	select eid from project
+);
+
+/*Find emplyoees who are working on at least one project*/
+select ename,eid from emp where exists(
+	select eid from emp
+	where emp.eid = project.eid
+);
